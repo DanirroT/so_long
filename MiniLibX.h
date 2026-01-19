@@ -17,7 +17,7 @@
 #include "minilibx-linux/mlx_int.h"
 #include "libft/libft.h"
 #include "libft/ft_printf.h"
-#include "libft/get_next_line.h"
+//#include "libft/get_next_line.h"
 #include <X11/keysym.h>
 
 #define B_WALL	'1'

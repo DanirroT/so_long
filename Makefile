@@ -6,7 +6,7 @@
 #    By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 12:24:40 by dmota-ri          #+#    #+#              #
-#    Updated: 2026/01/15 17:17:24 by dmota-ri         ###   ########.fr        #
+#    Updated: 2026/01/19 15:34:46 by dmota-ri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ MLX_FLAGS = -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 
 INC = -I$(LIBMLX_DIR) -I$(LIBFT_DIR) -I.
 
-CFLAGS = -Wall -Wextra -Werror -DNO_MAIN
+CFLAGS = #-Wall -Wextra -Werror -DNO_MAIN
 CC = cc
 
 #	CFLAGS = -Wall -Wextra -Werror -I includes

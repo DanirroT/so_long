@@ -6,7 +6,7 @@
 /*   By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:38:58 by dmota-ri          #+#    #+#             */
-/*   Updated: 2026/01/15 20:34:35 by dmota-ri         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:40:03 by dmota-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,15 +261,15 @@ void get_board(int height, int width, t_board *board)
 	i = 0;
 	while(i < height)
 	{
-		map[0][i] = B_WALL;
-		map[width-1][i] = B_WALL;
+		map[i][0] = B_WALL;
+		map[i][width-1] = B_WALL;
 		i++;
 	}
 	i = 0;
 	while(i < width)
 	{
-		map[i][0] = B_WALL;
-		map[i][height-1] = B_WALL;
+		map[0][i] = B_WALL;
+		map[height-1][i] = B_WALL;
 		i++;
 	}
 	ft_putstr_fd("set walls", 1);
@@ -311,18 +311,20 @@ int main()
 //	int 			fd;
 	t_board		board;
 	t_img		*main_img;
+	t_img		*template_img;
 	t_win_list	*window;
 	t_sprites	sprites;
 	t_xvar		*mlx;
 	t_coords	main_wind;
 	t_coords	size_sprite;
+	t_coords	size_template;
 	int			bpp;
 	int			size_line;
 	int			endian;
 	
 	ft_putstr_fd("start\n\n", 1);
 
-	get_board(3, 3, &board);
+	get_board(5, 3, &board);
 	ft_putstr_fd("\n\npost get board\n\n", 1);
 
 	print_board(board);
@@ -340,7 +342,10 @@ int main()
 	ft_putstr_fd("\n\npost Window\n", 1);
 	main_img = mlx_new_image(mlx, main_wind.x, main_wind.y);
 	ft_putstr_fd("\n\npost image\n", 1);
-	print_display(mlx, window, main_img);
+	template_img = mlx_xpm_file_to_image(mlx, "sprites/template.xpm", &size_template.x, &size_template.y);
+	mlx_put_image_to_window(mlx, window, template_img, size_sprite.x, size_sprite.y);
+	ft_putstr_fd("\n\nPrint Template test\n", 1);
+	mlx_put_image_to_window(mlx, window, sprites.p_foe, size_sprite.x * 0, size_sprite.y * 0);
 	ft_putstr_fd("\n\nEND!\n", 1);
 	mlx_loop(mlx);
 	return (0);
