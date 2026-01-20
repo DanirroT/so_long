@@ -6,7 +6,7 @@
 /*   By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:38:58 by dmota-ri          #+#    #+#             */
-/*   Updated: 2026/01/19 15:40:03 by dmota-ri         ###   ########.fr       */
+/*   Updated: 2026/01/20 11:10:14 by dmota-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,11 +342,12 @@ int main()
 	ft_putstr_fd("\n\npost Window\n", 1);
 	main_img = mlx_new_image(mlx, main_wind.x, main_wind.y);
 	ft_putstr_fd("\n\npost image\n", 1);
-	template_img = mlx_xpm_file_to_image(mlx, "sprites/template.xpm", &size_template.x, &size_template.y);
-	mlx_put_image_to_window(mlx, window, template_img, size_sprite.x, size_sprite.y);
-	ft_putstr_fd("\n\nPrint Template test\n", 1);
 	mlx_put_image_to_window(mlx, window, sprites.p_foe, size_sprite.x * 0, size_sprite.y * 0);
 	ft_putstr_fd("\n\nEND!\n", 1);
 	mlx_loop(mlx);
 	return (0);
 }
+
+//	template_img = mlx_xpm_file_to_image(mlx, "sprites/template.xpm", &size_template.x, &size_template.y);
+//	mlx_put_image_to_window(mlx, window, template_img, size_sprite.x, size_sprite.y);
+//	ft_putstr_fd("\n\nPrint Template test\n", 1);

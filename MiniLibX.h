@@ -6,7 +6,7 @@
 /*   By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:38:46 by dmota-ri          #+#    #+#             */
-/*   Updated: 2026/01/15 20:17:35 by dmota-ri         ###   ########.fr       */
+/*   Updated: 2026/01/20 11:12:22 by dmota-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "minilibx-linux/mlx_int.h"
 #include "libft/libft.h"
 #include "libft/ft_printf.h"
-//#include "libft/get_next_line.h"
+#include "libft/get_next_line.h"
 #include <X11/keysym.h>
 
 #define B_WALL	'1'
