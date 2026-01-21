@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sl_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:38:58 by dmota-ri          #+#    #+#             */
-/*   Updated: 2026/01/20 11:10:14 by dmota-ri         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:34:16 by dmota-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,112 +105,6 @@ int main(void)
 }
 */
 
-/*void	print_display(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-
-	mlx_put_image_to_window(param->xlm, param->win, param->main_img, 0, 0);
-}*/
-
-void	print_display(void *mlx, void *win, void *main_img)
-{
-	mlx_put_image_to_window(mlx, win, main_img, 0, 0);
-}
-void	check_collect(t_params *param, char dir)
-{
-	if (param->board->map[param->player.x][param->player.y] == B_WALL)
-	{
-		param->player.x = param->player.x - (dir == 's') + (dir == 'n');
-		param->player.y = param->player.y + (dir == 'e') - (dir == 'w');
-	}
-	else
-		param->moves++;
-}
-
-void	check_wall(t_params *param, char dir)
-{
-	if (param->board->map[param->player.x][param->player.y] == B_WALL)
-	{
-		param->player.x = param->player.x - (dir == 's') + (dir == 'n');
-		param->player.y = param->player.y + (dir == 'e') - (dir == 'w');
-	}
-	else
-		param->moves++;
-}
-
-/*void go_up(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-	
-	param->player.y--;
-	check_wall(param, 'n');
-	check_collect(param, 'n');
-	print_display(param);
-}
-
-void go_right(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-	
-	param->player.x++;
-	check_wall(param, 'e');
-	check_collect(param, 'e');
-	print_display(param);
-}
-
-void go_left(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-	
-	param->player.x--;
-	check_wall(param, 'w');
-	check_collect(param, 'w');
-	print_display(param);
-}
-
-void go_down(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-	
-	param->player.y++;
-	check_wall(param, 's');
-	check_collect(param, 's');
-	print_display(param);
-}*/
-
-void close_window(void *param_raw)
-{
-	t_params *param;
-
-	param = param_raw;
-	mlx_destroy_window(param->xlm, param->win);
-}
-/*
-void keyboard_events(int keycode, void *param)
-{
-	if (keycode == XK_Escape)
-		close_window(param);
-	else if (keycode == XK_w || keycode == XK_W || keycode == XK_Up)
-		go_up(param);
-	else if (keycode == XK_d || keycode == XK_D || keycode == XK_Right)
-		go_right(param);
-	else if (keycode == XK_a || keycode == XK_A || keycode == XK_Left)
-		go_left(param);
-	else if (keycode == XK_s || keycode == XK_S || keycode == XK_Down)
-		go_down(param);
-	
-}*/
-
 void	print_board(t_board board)
 {
 	int i;
@@ -232,13 +126,12 @@ void	print_board(t_board board)
 	}
 }
 
-void get_board(int height, int width, t_board *board)
+void get_board(int width, int height, t_board *board, t_coords *player)
 {
 	char **map;
 	int i;
 	int j;
 	ft_putstr_fd("get board\n", 1);
-
 	map = malloc(sizeof(char *) * height);
 	i = 0;
 	while (i < height)
@@ -251,7 +144,6 @@ void get_board(int height, int width, t_board *board)
 		while(j < width)
 		{
 			map[i][j] = B_EMPTY;
-			ft_putchar_fd(map[i][j], 1);
 			j++;
 		}
 		i++;
@@ -272,82 +164,84 @@ void get_board(int height, int width, t_board *board)
 		map[height-1][i] = B_WALL;
 		i++;
 	}
-	ft_putstr_fd("set walls", 1);
-
-	ft_putchar_fd(map[0][0], 1);
+	ft_putstr_fd("set walls\n", 1);
+	map[(height) / 2][(width) / 2] = B_PLAYER;
+	ft_printf("player located at %i x %i", (height) / 2, (width) / 2);
 	board->height = height;
 	board->width = width;
 	board->map = map;
+	player->x = (width) / 2;
+	player->y = (height) / 2;
 }
 
-void build_sprites(t_xvar *mlx, t_sprites *sprites, t_coords *size_sprite)
+void build_sprites(t_xvar *mlx, t_sprites *sprites)
 {
 	t_coords	size_save;
 	
-	sprites->p_collectable = mlx_xpm_file_to_image(mlx, "sprites/collectable.xpm", &size_sprite->x, &size_sprite->y);
-	size_save.x = size_sprite->x;
-	size_save.y = size_sprite->y;
-	sprites->p_empty = mlx_xpm_file_to_image(mlx, "sprites/empty.xpm", &size_sprite->x, &size_sprite->y);
-	if (size_save.x != size_sprite->x || size_save.y != size_sprite->y)
+	sprites->p_collectable = mlx_xpm_file_to_image(mlx, "sprites/collectable.xpm", &sprites->size.x, &sprites->size.y);
+	size_save.x = sprites->size.x;
+	size_save.y = sprites->size.y;
+	sprites->p_empty = mlx_xpm_file_to_image(mlx, "sprites/empty.xpm", &sprites->size.x, &sprites->size.y);
+	if (size_save.x != sprites->size.x || size_save.y != sprites->size.y)
 		exit(-1);
-	sprites->p_exit = mlx_xpm_file_to_image(mlx, "sprites/exit.xpm", &size_sprite->x, &size_sprite->y);
-	if (size_save.x != size_sprite->x || size_save.y != size_sprite->y)
+	sprites->p_exit = mlx_xpm_file_to_image(mlx, "sprites/exit.xpm", &sprites->size.x, &sprites->size.y);
+	if (size_save.x != sprites->size.x || size_save.y != sprites->size.y)
 		exit(-1);
-	sprites->p_foe = mlx_xpm_file_to_image(mlx, "sprites/foe.xpm", &size_sprite->x, &size_sprite->y);
-	if (size_save.x != size_sprite->x || size_save.y != size_sprite->y)
+	sprites->p_foe = mlx_xpm_file_to_image(mlx, "sprites/foe.xpm", &sprites->size.x, &sprites->size.y);
+	if (size_save.x != sprites->size.x || size_save.y != sprites->size.y)
 		exit(-1);
-	sprites->p_player = mlx_xpm_file_to_image(mlx, "sprites/player.xpm", &size_sprite->x, &size_sprite->y);
-	if (size_save.x != size_sprite->x || size_save.y != size_sprite->y)
+	sprites->p_player = mlx_xpm_file_to_image(mlx, "sprites/player.xpm", &sprites->size.x, &sprites->size.y);
+	if (size_save.x != sprites->size.x || size_save.y != sprites->size.y)
 		exit(-1);
-	sprites->p_wall = mlx_xpm_file_to_image(mlx, "sprites/wall.xpm", &size_sprite->x, &size_sprite->y);
-	if (size_save.x != size_sprite->x || size_save.y != size_sprite->y)
+	sprites->p_wall = mlx_xpm_file_to_image(mlx, "sprites/wall.xpm", &sprites->size.x, &sprites->size.y);
+	if (size_save.x != sprites->size.x || size_save.y != sprites->size.y)
 		exit(-1);
-	
 }
 
-int main()
+int main(void)
 {
-//	t_params		params;
+	t_params		params;
 //	int 			fd;
-	t_board		board;
-	t_img		*main_img;
-	t_img		*template_img;
-	t_win_list	*window;
 	t_sprites	sprites;
-	t_xvar		*mlx;
 	t_coords	main_wind;
-	t_coords	size_sprite;
-	t_coords	size_template;
 	int			bpp;
 	int			size_line;
 	int			endian;
 	
 	ft_putstr_fd("start\n\n", 1);
 
-	get_board(5, 3, &board);
+	get_board(5, 6, &params.board, &params.player); // generates a 3 x 5 valid board, and put it inside the board struct (map (array), height, width)
 	ft_putstr_fd("\n\npost get board\n\n", 1);
 
-	print_board(board);
+	print_board(params.board); // prints the board for visualisation purposed
 	ft_putstr_fd("\n\npost print board\n\n", 1);
-	mlx = mlx_init();
+	params.mlx = mlx_init(); // initiates mlx
 	ft_putstr_fd("\n\npost mlx_init\n", 1);
-	build_sprites(mlx, &sprites, &size_sprite);
+	build_sprites(params.mlx, &sprites); // opens sprite files and loads into an array of images
 	ft_putstr_fd("\n\npost sprites\n", 1);
 	mlx_get_data_addr(sprites.p_collectable, &bpp, &size_line, &endian);
-	main_wind.x = size_sprite.x * board.width;
-	main_wind.y = size_sprite.y * board.height;
+	main_wind.x = sprites.size.x * params.board.width;
+	main_wind.y = sprites.size.y * params.board.height;
 	ft_printf("\n\nData: bpp - %i, size_line - %i, endian - %i res sprites - %i x %i res window - %i x %i\n",
-		bpp, size_line, endian, size_sprite.x, size_sprite.y, main_wind.x, main_wind.y);
-	window = mlx_new_window(mlx, main_wind.x, main_wind.y, "Main Window");
+		bpp, size_line, endian, sprites.size.x, sprites.size.y, main_wind.x, main_wind.y); // gets and prints data for visualisation purposed
+	params.win = mlx_new_window(params.mlx, main_wind.x, main_wind.y, "Main Window"); // create window
 	ft_putstr_fd("\n\npost Window\n", 1);
-	main_img = mlx_new_image(mlx, main_wind.x, main_wind.y);
+	params.main_img = mlx_new_image(params.mlx, main_wind.x, main_wind.y);
 	ft_putstr_fd("\n\npost image\n", 1);
-	mlx_put_image_to_window(mlx, window, sprites.p_foe, size_sprite.x * 0, size_sprite.y * 0);
+	mlx_put_image_to_window(params.mlx, params.win, sprites.p_wall, sprites.size.x * 0, sprites.size.y * 0);
+	mlx_put_image_to_window(params.mlx, params.win, sprites.p_foe, sprites.size.x * 1, sprites.size.y * 0);
 	ft_putstr_fd("\n\nEND!\n", 1);
-	mlx_loop(mlx);
+	
+	mlx_key_hook(params.win, keyboard_events, &params); // problem here
+
+	mlx_expose_hook(params.win, expose_funct, &params); // and here
+	ft_printf("end %i %i\n", params.player.x, params.player.y);
+	mlx_loop(params.mlx);
 	return (0);
 }
 
+//	t_img		*template_img;
+//	t_coords	size_template;
 //	template_img = mlx_xpm_file_to_image(mlx, "sprites/template.xpm", &size_template.x, &size_template.y);
 //	mlx_put_image_to_window(mlx, window, template_img, size_sprite.x, size_sprite.y);
 //	ft_putstr_fd("\n\nPrint Template test\n", 1);

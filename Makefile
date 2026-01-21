@@ -6,13 +6,16 @@
 #    By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 12:24:40 by dmota-ri          #+#    #+#              #
-#    Updated: 2026/01/19 15:34:46 by dmota-ri         ###   ########.fr        #
+#    Updated: 2026/01/21 19:03:06 by dmota-ri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-SRC = main.c
+SRC =	sl_main.c\
+		sl_movement.c\
+		sl_events.c\
+		sl_win_manage.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -32,10 +35,8 @@ MLX_FLAGS = -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 
 INC = -I$(LIBMLX_DIR) -I$(LIBFT_DIR) -I.
 
-CFLAGS = #-Wall -Wextra -Werror -DNO_MAIN
+CFLAGS = -Wall -Wextra -Werror -DNO_MAIN
 CC = cc
-
-#	CFLAGS = -Wall -Wextra -Werror -I includes
 
 RM = rm -f
 

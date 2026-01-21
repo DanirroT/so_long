@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   .main.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmota-ri <dmota-ri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dmota-ri <dmota-ri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 11:38:58 by dmota-ri          #+#    #+#             */
-/*   Updated: 2026/01/15 18:01:22 by dmota-ri         ###   ########.fr       */
+/*   Updated: 2026/01/20 17:41:13 by dmota-ri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ void	print_board(t_board board)
 
 int check_file(char const *name)
 {
-	size_t len;
+	size_t	len;
 	len = ft_strlen(name);
 	if (name[len - 1] == 'r' && name[len - 2] == 'e'
 		&& name[len - 3] == 'b' && name[len - 4] == '.')
